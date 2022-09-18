@@ -1,6 +1,6 @@
 # Import connect and other files
 import os
-from connect_helper import Player, get_name, print_frame, select, clear, color, delay_print
+from helper import Player, get_name, print_frame, select, clear, color, delay_print
 
 
 # Main function
