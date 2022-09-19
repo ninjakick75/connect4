@@ -2,6 +2,12 @@
 import os
 from helper import Player, get_name, print_frame, select, clear, color, delay_print
 
+# Small dictionary of colors
+colors = {
+    1 : color.RED
+    2: color.YELLOW
+}
+
 
 # Main function
 def main():
