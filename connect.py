@@ -46,8 +46,8 @@ def main():
     # Ask for who to go first
     print_frame()
     delay_print("Who should go first?\n")
-    delay_print(f"1: {player1.name}\n", edit=[player1.color])
-    delay_print(f"2: {player2.name}\n", edit=[player2.color])
+    delay_print(f"1: {player1._name}\n", edit=[player1._color])
+    delay_print(f"2: {player2._name}\n", edit=[player2._color])
     delay_print("3: Random")
     
     # Get the user input
@@ -59,12 +59,12 @@ def main():
 
     # Tell the user who is going first
     print_frame()
-    delay_print(f"{players[first].name} is going first", edit=[players[first].color])
+    delay_print(f"{players[first]._name} is going first", edit=[players[first]._color])
     sleep(1)
     print_frame()
 
     # Start the game
-    play_game(player1, player2, first)
+    play_game(players, first)
 
 
 

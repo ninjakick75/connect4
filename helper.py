@@ -8,30 +8,76 @@ class Player:
 
     # Constructor class
     def __init__(self, color, name):
-        self.name = name
-        self.win = 0
-        self.lose = 0
-        self.color = color
+        self._name = name
+        self._win = 0
+        self._lose = 0
+        self._color = color
+
 
 class Board:
 
+    # Constant variables
+    COLUMNS = 7
+    ROWS = 6
+
     # Constructor class
-    def __init__(self):
+    def __init__(self, dict):
 
         # Create the board with zeros
         self.board = []
-        for i in range(6):
+        for i in range(self.ROWS):
             list = []
-            for j in range(7):
+            for j in range(self.COLUMNS):
                 list.append(0)
-            
+
             # Add the list to the board
             self.board.append(list)
 
-    def __str__(self):
-        print(self.board)
+        # Add the player dictionary
+        self.players = dict
 
-            
+    # Print the board centered
+    def print_board(self, start=False):
+        
+        # Check if start
+        if start:
+            delay = 0.5
+        else:
+            delay = 0
+
+        # Iterate through 2d graph
+        for i in range(self.ROWS):
+
+            # Create string line
+            string_line = color.BLUE + "|" + color.END
+
+            # Iterate each row
+            for j in range(self.COLUMNS):
+
+                # Write the board
+                if self.board[i][j] == 0:
+                    string_line += " "
+                elif self.board[i][j] == 1:
+                    string_line += self.players[1].color + "0" + color.END
+                else:
+                    string_line += self.players[2].color + "0" + color.END
+                
+                # Add the line
+                string_line += color.BLUE + "|" + color.END
+
+            # Center the string
+            string_centre(string_line, border=" ")
+
+            # Print it
+            print(string_line)
+
+            # Wait for suspense
+            sleep(start)
+
+        # Once finished print the bottom
+        delay_print("---------------", edit=[color.BLUE])
+                
+
 
 
 # Print center text
@@ -83,19 +129,20 @@ def print_frame(delay=0) -> None:
 
 # Get the user name
 def get_name(player: int) -> str:
-    
+
     # Get the user input
     name = input(f"Player {player} name: ")
 
     # Check if name is nothing
-    if name == "": name = f"Player {player}"
+    if name == "":
+        name = f"Player {player}"
 
     # Return the name
     return name.title().strip()
 
 
 # Get the user input of either 1 or 2
-def select(txt, select=[1,2]):
+def select(txt, select=[1, 2]):
     print()
     while True:
         try:
