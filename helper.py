@@ -50,7 +50,7 @@ class Board:
             self._board.append(list)
 
         # Add the player dictionary
-        self.players = dict
+        self._players = dict
 
         # Add the connect four coloum heights
         self._heights = []
@@ -124,6 +124,45 @@ class Board:
 
         # Once finished print the bottom
         delay_print(string_centre("---------------", border=" "), delay=0, edit=[color.BLUE])
+
+    # Insert into a column
+    def insert(self, column, player):
+        
+        # Find where to place it
+        place = self.ROWS - self.heights[column - 1] - 1
+
+        # Insert place into board
+        self._board[place][column - 1] = player
+
+        # Add one more to the heights
+        self._heights[column - 1] += 1
+
+    # Check which columns are available to place a counter
+    def get_valid(self):
+
+        # Declare result list
+        result = []
+
+        # Iterate through all heights
+        for i in range(self.COLUMNS):
+
+            # If heights is not 6
+            if self.heights[i] != self.ROWS: result.append(i + 1)
+
+        # Return the results once done
+        return result
+
+    @property
+    def heights(self):
+        return self._heights
+
+    @property
+    def board(self):
+        return self._board
+
+    @property
+    def players(self):
+        return self._players
                 
 
 
@@ -155,7 +194,7 @@ def delay_print(text, delay=0.05, end="\n", edit=[""], ignore=None):
     # Print
     i = 0
     for char in text:
-        sys.stdout.write(edit[(i % length) - 1] + char + color.END)
+        sys.stdout.write(edit[(i % length)] + char + color.END)
         sys.stdout.flush()
         sleep(delay)
         if char != ignore:
