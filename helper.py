@@ -24,17 +24,23 @@ class Board:
     def __init__(self, dict):
 
         # Create the board with zeros
-        self.board = []
+        self._board = []
         for i in range(self.ROWS):
             list = []
             for j in range(self.COLUMNS):
                 list.append(0)
 
             # Add the list to the board
-            self.board.append(list)
+            self._board.append(list)
 
         # Add the player dictionary
-        self.players = dict
+        self._players = dict
+
+        # Add the connect four coloum heights
+        self._heights = []
+
+        for i in range(self.COLUMNS):
+            self._heights.append(0)
 
     # Print the board centered
     def print_board(self, start=False):
@@ -49,33 +55,39 @@ class Board:
         for i in range(self.ROWS):
 
             # Create string line
-            string_line = color.BLUE + "|" + color.END
+            string_line = "|"
+
+            # Create list of colors
+            colors = [color.BLUE]
 
             # Iterate each row
             for j in range(self.COLUMNS):
 
                 # Write the board
-                if self.board[i][j] == 0:
+                if self._board[i][j] == 0:
                     string_line += " "
-                elif self.board[i][j] == 1:
-                    string_line += self.players[1].color + "0" + color.END
+                elif self._board[i][j] == 1:
+                    string_line += "0"
+                    colors.append(self._players[1].color)
                 else:
-                    string_line += self.players[2].color + "0" + color.END
+                    string_line += "0"
+                    colors.append(self._players[2].color)
                 
                 # Add the line
-                string_line += color.BLUE + "|" + color.END
+                string_line += "|"
+                colors.append(color.BLUE)
 
             # Center the string
-            string_centre(string_line, border=" ")
+            string_line = string_centre(string_line, border=" ")
 
             # Print it
-            print(string_line)
+            delay_print(string_line, delay=0, edit=colors, ignore=" ")
 
             # Wait for suspense
             sleep(start)
 
         # Once finished print the bottom
-        delay_print("---------------", edit=[color.BLUE])
+        delay_print(string_centre("---------------", border=" "), delay=0, edit=[color.BLUE])
                 
 
 
@@ -99,16 +111,19 @@ def clear():
 
 
 # Delay printing text
-def delay_print(text, delay=0.05, end="\n", edit=[""]):
+def delay_print(text, delay=0.05, end="\n", edit=[""], ignore=None):
 
     # Get length of the edit
     length = len(edit)
 
     # Print
-    for i, char in enumerate(text):
+    i = 0
+    for char in text:
         sys.stdout.write(edit[(i % length) - 1] + char + color.END)
         sys.stdout.flush()
         sleep(delay)
+        if char != ignore:
+            i += 1
 
     # Print the end argument
     print(end=end)
