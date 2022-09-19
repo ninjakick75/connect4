@@ -13,6 +13,26 @@ class Player:
         self.lose = 0
         self.color = color
 
+class Board:
+
+    # Constructor class
+    def __init__(self):
+
+        # Create the board with zeros
+        self.board = []
+        for i in range(6):
+            list = []
+            for j in range(7):
+                list.append(0)
+            
+            # Add the list to the board
+            self.board.append(list)
+
+    def __str__(self):
+        print(self.board)
+
+            
+
 
 # Print center text
 def string_centre(*strings: str, border="=", sep=" ") -> str:

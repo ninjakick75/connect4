@@ -1,6 +1,7 @@
 # Import connect and other files
 import os
 from helper import Player, get_name, print_frame, select, clear, color, delay_print
+from game import play_game
 from random import randint
 from time import sleep
 
@@ -61,6 +62,9 @@ def main():
     delay_print(f"{players[first].name} is going first", edit=[players[first].color])
     sleep(1)
     print_frame()
+
+    # Start the game
+    play_game(player1, player2, first)
 
 
 
