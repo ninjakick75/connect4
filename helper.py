@@ -35,6 +35,7 @@ class Board:
     # Constant variables
     COLUMNS = 7
     ROWS = 6
+    CONNECT = 4
 
     # Constructor class
     def __init__(self, dict):
@@ -57,6 +58,9 @@ class Board:
 
         for i in range(self.COLUMNS):
             self._heights.append(0)
+
+        # Remember all the winners and losers
+        self.scores = []
 
     # Print the board centered
     def print_board(self, start=False):
@@ -104,10 +108,13 @@ class Board:
                     string_line += " "
                 elif self._board[i][j] == 1:
                     string_line += "0"
-                    colors.append(self._players[1].color)
+                    colors.append(self.players[1].color)
+                elif self._board[i][j] == 2:
+                    string_line += "0"
+                    colors.append(self.players[2].color)
                 else:
                     string_line += "0"
-                    colors.append(self._players[2].color)
+                    colors.append(color.GREEN)
                 
                 # Add the line
                 string_line += "|"
@@ -137,6 +144,16 @@ class Board:
         # Add one more to the heights
         self._heights[column - 1] += 1
 
+        # Iterate through graph to find winner
+        for y in range(self.ROWS):
+            for x in range(self.COLUMNS):
+                if self.board[y][x] != 0:
+                    if self.find_winner(y, x):
+                        return True
+
+        # If there is no winner
+        return False
+
     # Check which columns are available to place a counter
     def get_valid(self):
 
@@ -151,6 +168,68 @@ class Board:
 
         # Return the results once done
         return result
+
+    # Try to find the winner in the array
+    def find_winner(self, row, column, path=[0,0], iterate=1):
+
+        # Iterate through all of the possible ways
+        if path == [0,0]:
+
+            # Iterate through the rows
+            for y in range(-1, 2):
+
+                # Iterate through the columns
+                for x in range(-1, 2):
+
+                    # If one same tile
+                    if y == 0 and x == 0:
+                        next
+                    else:
+
+                        # Check for sameness
+                        try:
+                            if self.board[row][column] == self.board[row + y][column + x]:
+                                
+                                # See if find winner = true
+                                if self.find_winner(row=row + y, column=column + x, path=[y,x], iterate=iterate + 1):
+
+                                    # Change to 3 for winner
+                                    self._board[row][column] = 3
+                                    return True
+
+                        # If index is out of range
+                        except IndexError:
+                            pass
+
+        # If there is a path
+        else:
+            # Check if the block is the same
+            try:
+                # Find check the path
+                if self.board[row][column] == self.board[row + path[0]][column + path[1]]:
+                    
+                    # Check if iterations are enough
+                    iterate += 1
+
+                    # If there is a winner
+                    if iterate == self.CONNECT:
+                        self._board[row][column] = 3
+                        self._board[row + path[0]][column + path[1]] = 3
+                        return True
+
+                    # Else go to next node
+                    if self.find_winner(row=row + path[0], column=column + path[1], path=path, iterate=iterate):
+                        self._board[row][column] = 3
+                        return True
+
+            # If it is out of index
+            except IndexError:
+                pass
+
+        # If none is found
+        return False
+
+
 
     @property
     def heights(self):
