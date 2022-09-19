@@ -75,15 +75,17 @@ def get_name(player: int) -> str:
 
 
 # Get the user input of either 1 or 2
-def select(txt):
+def select(txt, select=[1,2]):
     print()
     while True:
         try:
             number = int(input(txt).strip())
-            if number == 1 or number == 2:
+            if number in select:
                 return number
-        except:
-            print("Usage: '1' or '2'")
+            else:
+                raise ValueError
+        except ValueError:
+            print(f"Usage: {select}")
 
 
 # Color selection

@@ -1,10 +1,12 @@
 # Import connect and other files
 import os
 from helper import Player, get_name, print_frame, select, clear, color, delay_print
+from random import randint
+from time import sleep
 
 # Small dictionary of colors
 colors = {
-    1 : color.RED
+    1 : color.RED,
     2: color.YELLOW
 }
 
@@ -27,8 +29,39 @@ def main():
     # Ask user to choose their color
     delay_print(f"{name1}, choose your color:\n")
     delay_print("1: RED\n", edit=[color.RED])
-    delay_print("2: YELLOW\n", edit=[color.YELLOW])
+    delay_print("2: YELLOW", edit=[color.YELLOW])
     selection = select("Choose: ")
+
+    # Create the new players
+    player1 = Player(colors[selection], name1)
+    player2 = Player(colors[(selection % 2) + 1], name2)
+
+    # Create dictionary of the players
+    players = {
+        1 : player1,
+        2: player2
+    }
+
+    # Ask for who to go first
+    print_frame()
+    delay_print("Who should go first?\n")
+    delay_print(f"1: {player1.name}\n", edit=[player1.color])
+    delay_print(f"2: {player2.name}\n", edit=[player2.color])
+    delay_print("3: Random")
+    
+    # Get the user input
+    first = select("Choose: ", select=[1,2,3])
+
+    # Check if input is 3
+    if first == 3:
+        first = randint(1,2)
+
+    # Tell the user who is going first
+    print_frame()
+    delay_print(f"{players[first].name} is going first", edit=[players[first].color])
+    sleep(1)
+    print_frame()
+
 
 
 
