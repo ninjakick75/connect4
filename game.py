@@ -7,3 +7,6 @@ def play_game(players: dict, first: int):
     # Create the board
     board = Board(players)
     board.print_board(True)
+
+    # Start the game
+    

@@ -51,6 +51,26 @@ class Board:
         else:
             delay = 0
 
+        # Declare numbers string
+        numbers = " "
+
+        # Print the numbers
+        for i in range(self.COLUMNS):
+            
+            # Check if it is large
+            if self._heights[i] == self.ROWS:
+                numbers += "  "
+
+            # Else add the number
+            else:
+                numbers += f"{i + 1} "
+
+        # Once finished, add the string
+        print(string_centre(numbers, border=" "))
+
+        # Delay for suspense
+        sleep(start)
+
         # Iterate through 2d graph
         for i in range(self.ROWS):
 
