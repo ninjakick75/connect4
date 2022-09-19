@@ -10,8 +10,24 @@ class Player:
     def __init__(self, color, name):
         self._name = name
         self._win = 0
-        self._lose = 0
         self._color = color
+
+    # If player wins, add a win for them
+    def add_win(self):
+        self._win += 1
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def win(self):
+        return self._win
+
+    @property
+    def color(self):
+        return self._color
+
 
 
 class Board:
@@ -34,7 +50,7 @@ class Board:
             self._board.append(list)
 
         # Add the player dictionary
-        self._players = dict
+        self.players = dict
 
         # Add the connect four coloum heights
         self._heights = []
@@ -177,11 +193,23 @@ def get_name(player: int) -> str:
 
 
 # Get the user input of either 1 or 2
-def select(txt, select=[1, 2]):
-    print()
+def select(txt="", select=[1, 2], nl=True, prompt1_nothing=False):
+
+    # If new line is true
+    if nl: print()
+
+    # Forever forloop
     while True:
         try:
-            number = int(input(txt).strip())
+
+            # Check if prompt1 is nothing
+            if prompt1_nothing == True:
+                prompt1_nothing = False
+                number = int(input().strip())
+            else:
+                number = int(input(txt).strip())
+
+            # Check if number is valid
             if number in select:
                 return number
             else:
