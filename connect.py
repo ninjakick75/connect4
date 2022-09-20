@@ -30,8 +30,8 @@ def main():
     # Ask user to choose their color
     delay_print(f"{name1}, choose your color:\n")
     delay_print("1: RED\n", edit=[color.RED])
-    delay_print("2: YELLOW", edit=[color.YELLOW])
-    selection = select("Choose: ")
+    delay_print("2: YELLOW\n", edit=[color.YELLOW])
+    selection = select("Choose: ", nl=False)
 
     # Create the new players
     player1 = Player(colors[selection], name1)

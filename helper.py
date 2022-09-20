@@ -151,6 +151,20 @@ class Board:
         # If there is no winner
         return False
 
+    # Reset the board
+    def reset(self):
+
+        # Iterate through the entire board
+        for x in range(self.COLUMNS):
+
+            # Reset the height
+            self._heights[x] = 0
+
+            for y in range(self.ROWS):
+
+                # Reset each tile to zero
+                self._board[y][x] = 0
+
     # Check which columns are available to place a counter
     def get_valid(self):
 

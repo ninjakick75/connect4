@@ -3,17 +3,37 @@ from helper import Board, print_frame, select, delay_print, color, clear, string
 from time import sleep
 
 # Create the game
-def set_game(players: dict, first: int):
+def set_game(players: dict, turn: int):
 
     # Create the board
     board = Board(players)
 
     # Run the game
-    play_game(board, first)
+    while True:
+        turn = play_game(board, turn)
+
+        # Ask user to play another game
+        print_frame()
+
+        delay_print("Do you want to play the next round?\n")
+        delay_print("1: YES\n", edit=[color.GREEN])
+        delay_print("2: NO\n", edit=[color.RED])
+        choice = select("Choose: ")
+
+        # If the input is two break
+        if choice == 2:
+            break
+
+        # Reset the board
+        board.reset()
+        
 
 
 # Play the game
 def play_game(board: Board, turn: int):
+
+    # Remember who went first
+    first = turn
 
     # Tell the user who is going first
     print_frame()
@@ -26,15 +46,31 @@ def play_game(board: Board, turn: int):
 
     # Start the game
     while True:
+
+        # Get a valid list of numbers to use for columns
+        valid = board.get_valid()
+
+        # If there is no winner and can not move
+        if valid == []:
+
+            # Tell the user that it is a tie
+            delay_print(string_centre("Tie!") + "\n", edit=[color.BLUE], delay=0.02)
+
+            # Add tie to statistics
+            board.add_winner(0)
+
+            # Delay
+            sleep(1)
+
+            # return who will go next
+            return ((first) % 2) + 1
+
         # Ask user for what column they want
         delay_print(
             f"{board.players[turn].name}'s turn: ",
             end="",
             edit=[board.players[turn].color],
         )
-
-        # Get a valid list of numbers to use for columns
-        valid = board.get_valid()
 
         # Get the user input
         column = select(
@@ -62,10 +98,12 @@ def play_game(board: Board, turn: int):
 
             # Print the winner
             print()
-            delay_print(string_centre(f"{board.players[turn].name} won!") + "\n", edit=[color.GREEN + color.BOLD])
+            delay_print(string_centre(f"{board.players[turn].name} won!") + "\n", edit=[color.GREEN + color.BOLD], delay=0.02)
+
+            sleep(1)
 
             # Break the while loop
-            break
+            return ((turn) % 2) + 1
             
 
         # Change the turn
