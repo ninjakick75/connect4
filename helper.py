@@ -185,7 +185,7 @@ class Board:
 
                         # Check for sameness
                         try:
-                            if self.board[row][column] == self.board[row + y][column + x]:
+                            if self.index_board(row, column) == self.index_board(row + y, column + x):
                                 
                                 # See if find winner = true
                                 if self.find_winner(row=row + y, column=column + x, path=[y,x], iterate=iterate + 1):
@@ -203,7 +203,7 @@ class Board:
             # Check if the block is the same
             try:
                 # Find check the path
-                if self.board[row][column] == self.board[row + path[0]][column + path[1]]:
+                if self.index_board(row, column) == self.index_board(row + path[0], column + path[1]):
                     
                     # Check if iterations are enough
                     iterate += 1
@@ -225,6 +225,15 @@ class Board:
 
         # If none is found
         return False
+
+    # Get index but if negative, index error
+    def index_board(self, y, x):
+
+        # Check if index is negative
+        if y < 0 or x < 0:
+            raise IndexError
+        return self.board[y][x]
+        
 
 
 
