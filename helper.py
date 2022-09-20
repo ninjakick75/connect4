@@ -309,12 +309,12 @@ class Board:
 
         # Check if it is a tie
         if self.players[1].win == self.players[2].win:
-            print(color.BLUE + "Tie!" + color.END, end="")
+            print(color.BLUE + "Tie!  " + color.END, end="")
 
         # Check if player 1 won
         elif self.players[1].win > self.players[2].win:
             print(
-                self.players[1].color + f"{self.players[1].name}!" + color.END, end=""
+                self.players[1].color + f"{self.players[1].name}!  " + color.END, end=""
             )
 
         # If player 2 won
