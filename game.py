@@ -26,6 +26,9 @@ def set_game(players: dict, turn: int):
 
         # Reset the board
         board.reset()
+
+    # Once finished with game, suspencefully print the winner
+    board.print_winner()
         
 
 

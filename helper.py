@@ -247,9 +247,9 @@ class Board:
         if y < 0 or x < 0:
             raise IndexError
         return self.board[y][x]
-        
 
-
+    # Print the winner once finished
+    
 
     @property
     def heights(self):
