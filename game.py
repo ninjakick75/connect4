@@ -1,5 +1,6 @@
 # Import external files
-from helper import Board, print_frame, select, delay_print, color, clear
+from helper import Board, print_frame, select, delay_print, color, clear, string_centre
+from time import sleep
 
 # Create the game
 def set_game(players: dict, first: int):
@@ -13,6 +14,12 @@ def set_game(players: dict, first: int):
 
 # Play the game
 def play_game(board: Board, turn: int):
+
+    # Tell the user who is going first
+    print_frame()
+    delay_print(f"{board.players[turn].name} is going first", edit=[board.players[turn].color])
+    sleep(1)
+    print_frame()
 
     # Print the board in a cool way
     board.print_board(True)
@@ -40,12 +47,26 @@ def play_game(board: Board, turn: int):
         )
 
         # Insert into the column
-        board.insert(column, turn)
-
-        # Change the turn
-        turn = ((turn) % 2) + 1
+        winner = board.insert(column, turn)
 
         # Print the board
         clear()
         print_frame()
         board.print_board()
+
+        # Check if winner
+        if winner:
+
+            # Add winner to statistics
+            board.add_winner(turn)
+
+            # Print the winner
+            print()
+            delay_print(string_centre(f"{board.players[turn].name} won!") + "\n", edit=[color.GREEN + color.BOLD])
+
+            # Break the while loop
+            break
+            
+
+        # Change the turn
+        turn = ((turn) % 2) + 1

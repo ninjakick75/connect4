@@ -57,12 +57,6 @@ def main():
     if first == 3:
         first = randint(1,2)
 
-    # Tell the user who is going first
-    print_frame()
-    delay_print(f"{players[first].name} is going first", edit=[players[first].color])
-    sleep(1)
-    print_frame()
-
     # Start the game
     set_game(players, first)
 

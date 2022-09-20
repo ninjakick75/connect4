@@ -9,20 +9,11 @@ class Player:
     # Constructor class
     def __init__(self, color, name):
         self._name = name
-        self._win = 0
         self._color = color
-
-    # If player wins, add a win for them
-    def add_win(self):
-        self._win += 1
 
     @property
     def name(self):
         return self._name
-
-    @property
-    def win(self):
-        return self._win
 
     @property
     def color(self):
@@ -60,7 +51,13 @@ class Board:
             self._heights.append(0)
 
         # Remember all the winners and losers
-        self.scores = []
+        self._scores = []
+
+    # Add a winner
+    def add_winner(self, player):
+
+        # Add the number to the winners list
+        self._scores.append(player)
 
     # Print the board centered
     def print_board(self, start=False):
@@ -242,6 +239,10 @@ class Board:
     @property
     def players(self):
         return self._players
+
+    @property
+    def scores(self):
+        return self._scores
                 
 
 
