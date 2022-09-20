@@ -6,10 +6,7 @@ from random import randint
 from time import sleep
 
 # Small dictionary of colors
-colors = {
-    1 : color.RED,
-    2: color.YELLOW
-}
+colors = {1: color.RED, 2: color.YELLOW}
 
 
 # Main function
@@ -38,10 +35,7 @@ def main():
     player2 = Player(colors[(selection % 2) + 1], name2)
 
     # Create dictionary of the players
-    players = {
-        1 : player1,
-        2: player2
-    }
+    players = {1: player1, 2: player2}
 
     # Ask for who to go first
     print_frame()
@@ -49,18 +43,16 @@ def main():
     delay_print(f"1: {player1.name}\n", edit=[player1.color])
     delay_print(f"2: {player2.name}\n", edit=[player2.color])
     delay_print("3: Random")
-    
+
     # Get the user input
-    first = select("Choose: ", select=[1,2,3])
+    first = select("Choose: ", select=[1, 2, 3])
 
     # Check if input is 3
     if first == 3:
-        first = randint(1,2)
+        first = randint(1, 2)
 
     # Start the game
     set_game(players, first)
-
-
 
 
 # Run code

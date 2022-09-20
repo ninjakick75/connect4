@@ -10,6 +10,11 @@ class Player:
     def __init__(self, color, name):
         self._name = name
         self._color = color
+        self._win = 0
+
+    # Add a win to the player
+    def add_win(self):
+        self._win += 1
 
     @property
     def name(self):
@@ -19,6 +24,9 @@ class Player:
     def color(self):
         return self._color
 
+    @property
+    def win(self):
+        return self._win
 
 
 class Board:
@@ -61,7 +69,7 @@ class Board:
 
     # Print the board centered
     def print_board(self, start=False):
-        
+
         # Check if start
         if start:
             delay = 0.5
@@ -73,7 +81,7 @@ class Board:
 
         # Print the numbers
         for i in range(self.COLUMNS):
-            
+
             # Check if it is large
             if self._heights[i] == self.ROWS:
                 numbers += "  "
@@ -112,7 +120,7 @@ class Board:
                 else:
                     string_line += "0"
                     colors.append(color.GREEN)
-                
+
                 # Add the line
                 string_line += "|"
                 colors.append(color.BLUE)
@@ -127,11 +135,13 @@ class Board:
             sleep(start)
 
         # Once finished print the bottom
-        delay_print(string_centre("---------------", border=" "), delay=0, edit=[color.BLUE])
+        delay_print(
+            string_centre("---------------", border=" "), delay=0, edit=[color.BLUE]
+        )
 
     # Insert into a column
     def insert(self, column, player):
-        
+
         # Find where to place it
         place = self.ROWS - self.heights[column - 1] - 1
 
@@ -175,16 +185,17 @@ class Board:
         for i in range(self.COLUMNS):
 
             # If heights is not 6
-            if self.heights[i] != self.ROWS: result.append(i + 1)
+            if self.heights[i] != self.ROWS:
+                result.append(i + 1)
 
         # Return the results once done
         return result
 
     # Try to find the winner in the array
-    def find_winner(self, row, column, path=[0,0], iterate=1):
+    def find_winner(self, row, column, path=[0, 0], iterate=1):
 
         # Iterate through all of the possible ways
-        if path == [0,0]:
+        if path == [0, 0]:
 
             # Iterate through the rows
             for y in range(-1, 2):
@@ -199,10 +210,17 @@ class Board:
 
                         # Check for sameness
                         try:
-                            if self.index_board(row, column) == self.index_board(row + y, column + x):
-                                
+                            if self.index_board(row, column) == self.index_board(
+                                row + y, column + x
+                            ):
+
                                 # See if find winner = true
-                                if self.find_winner(row=row + y, column=column + x, path=[y,x], iterate=iterate + 1):
+                                if self.find_winner(
+                                    row=row + y,
+                                    column=column + x,
+                                    path=[y, x],
+                                    iterate=iterate + 1,
+                                ):
 
                                     # Change to 3 for winner
                                     self._board[row][column] = 3
@@ -217,8 +235,10 @@ class Board:
             # Check if the block is the same
             try:
                 # Find check the path
-                if self.index_board(row, column) == self.index_board(row + path[0], column + path[1]):
-                    
+                if self.index_board(row, column) == self.index_board(
+                    row + path[0], column + path[1]
+                ):
+
                     # Check if iterations are enough
                     iterate += 1
 
@@ -229,7 +249,12 @@ class Board:
                         return True
 
                     # Else go to next node
-                    if self.find_winner(row=row + path[0], column=column + path[1], path=path, iterate=iterate):
+                    if self.find_winner(
+                        row=row + path[0],
+                        column=column + path[1],
+                        path=path,
+                        iterate=iterate,
+                    ):
                         self._board[row][column] = 3
                         return True
 
@@ -249,7 +274,65 @@ class Board:
         return self.board[y][x]
 
     # Print the winner once finished
-    
+    def print_winner(self):
+
+        # GOAL: Print winner with suspense
+        print("Calculating the winner...")
+        sleep(0.5)
+
+        # Iterate through each win and lose and tie
+        for i, winner in enumerate(self.scores):
+
+            # Check if it is a tie
+            if winner == 0:
+                print(color.BLUE + f"Game {i}: Tie" + color.END)
+
+            # If it is not a tie
+            else:
+
+                # Add one to the winner
+                self.players[winner].add_win()
+
+                # Print the winner and the color
+                print(
+                    self.players[winner].color
+                    + f"Game {i}: {self.players[winner].name}"
+                    + color.END
+                )
+
+            # Delay for suspense
+            sleep(0.5)
+
+        # Once finished declare the winner
+        delay_print("The winner is", end="")
+        delay_print("......... ", delay=0.25, end="")
+
+        # Check if it is a tie
+        if self.players[1].win == self.players[2].win:
+            print(color.BLUE + "Tie!" + color.END, end="")
+
+        # Check if player 1 won
+        elif self.players[1].win > self.players[2].win:
+            print(
+                self.players[1].color + f"{self.players[1].name}!" + color.END, end=""
+            )
+
+        # If player 2 won
+        else:
+            print(
+                self.players[2].color + f"{self.players[2].name}!  " + color.END
+            )
+
+        # Print the scores
+        print(
+            self.players[1].color
+            + f"{self.players[1].win}"
+            + color.END
+            + "-"
+            + self.players[2].color
+            + f"{self.players[2].win}"
+            + color.END
+        )
 
     @property
     def heights(self):
@@ -266,8 +349,6 @@ class Board:
     @property
     def scores(self):
         return self._scores
-                
-
 
 
 # Print center text
@@ -307,6 +388,7 @@ def delay_print(text, delay=0.05, end="\n", edit=[""], ignore=None):
     print(end=end)
 
 
+# Print the connect four framework
 def print_frame(delay=0) -> None:
 
     # Clear the terminal
@@ -338,7 +420,8 @@ def get_name(player: int) -> str:
 def select(txt="", select=[1, 2], nl=True, prompt1_nothing=False):
 
     # If new line is true
-    if nl: print()
+    if nl:
+        print()
 
     # Forever forloop
     while True:

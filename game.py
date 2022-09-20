@@ -28,8 +28,8 @@ def set_game(players: dict, turn: int):
         board.reset()
 
     # Once finished with game, suspencefully print the winner
+    print_frame()
     board.print_winner()
-        
 
 
 # Play the game
@@ -40,7 +40,9 @@ def play_game(board: Board, turn: int):
 
     # Tell the user who is going first
     print_frame()
-    delay_print(f"{board.players[turn].name} is going first", edit=[board.players[turn].color])
+    delay_print(
+        f"{board.players[turn].name} is going first", edit=[board.players[turn].color]
+    )
     sleep(1)
     print_frame()
 
@@ -82,7 +84,7 @@ def play_game(board: Board, turn: int):
             + color.END,
             nl=False,
             prompt1_nothing=True,
-            select=valid
+            select=valid,
         )
 
         # Insert into the column
@@ -101,13 +103,16 @@ def play_game(board: Board, turn: int):
 
             # Print the winner
             print()
-            delay_print(string_centre(f"{board.players[turn].name} won!") + "\n", edit=[color.GREEN + color.BOLD], delay=0.02)
+            delay_print(
+                string_centre(f"{board.players[turn].name} won!") + "\n",
+                edit=[color.GREEN + color.BOLD],
+                delay=0.02,
+            )
 
             sleep(1)
 
             # Break the while loop
             return ((turn) % 2) + 1
-            
 
         # Change the turn
         turn = ((turn) % 2) + 1
