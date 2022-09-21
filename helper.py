@@ -320,7 +320,7 @@ class Board:
         # If player 2 won
         else:
             print(
-                self.players[2].color + f"{self.players[2].name}!  " + color.END
+                self.players[2].color + f"{self.players[2].name}!  " + color.END, end=""
             )
 
         # Print the scores
